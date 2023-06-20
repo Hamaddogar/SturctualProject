@@ -1,10 +1,11 @@
 // require('dotenv').config()
-const userRouter = require('./Api/Router/router');
+const userRouter = require('./Api/Router/userrouter');
 const connectDB = require('./Database/db');
 const express = require('express');
 // const path = require("path");
 const cors = require('cors');
 const app = express();
+ const otpRouter = require('../controller/Api/Router/otpRouter')
 const bodyParser = require('body-parser');
 const formDataController = require('../controller/Api/formRouter');
 // useage
@@ -18,9 +19,10 @@ app.use(express.urlencoded({ limit: '200mb', extended: true }));
 
 // ============Work Area================//
 connectDB();
-// app.use('/user', userRouter);
+app.use('/user', userRouter);
+app.use('/generate-otp',otpRouter)
 
-app.post('/user', formDataController.saveFormData);
+// app.post('/user', formDataController.saveFormData);
 // ===========Deploy Purposes===========//
 // if (process.env.NODE_ENV === "production") {
 //     app.use(express.static("build"));
@@ -29,5 +31,9 @@ app.post('/user', formDataController.saveFormData);
 //         res.sendFile(path.resolve(__dirname, 'build', 'index.html'));
 //     })
 // }
+
+
+
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => { console.log('server is running'); })
